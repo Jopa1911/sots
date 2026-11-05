@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Tajni ključevi (npr. API ključ za jezički model) — nikada ne idu na GitHub
+.env
+
+# Sirovi podaci se preuzimaju skriptama i ne čuvaju se u repozitorijumu
+data/raw/
+
+# Sistemski fajlovi
+.DS_Store
+Thumbs.db
+desktop.ini
