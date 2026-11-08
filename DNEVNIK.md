@@ -1,5 +1,5 @@
 # Istraživački dnevnik – AI konverzacioni agent za vežbanje zahtevnih razgovora
-Ime Prezime R2 XX/2026
+Pavle Tasić R2 47/2026
 
 ## 1. Cilj projekta
 
