@@ -1,0 +1,68 @@
+{
+  "dialogues": 1300,
+  "utterances": 38365,
+  "supporter_labelled": 18376,
+  "strategies": {
+    "S1": 3801,
+    "S2": 1089,
+    "S3": 1436,
+    "S4": 1713,
+    "S5": 2827,
+    "S6": 2954,
+    "S7": 1215,
+    "S8": 3341
+  },
+  "anger_dialogues": 111,
+  "intensity_pairs": 1150,
+  "intensity_before": 4.07,
+  "intensity_after": 2.07,
+  "problem_types": {
+    "ongoing depression": 351,
+    "job crisis": 280,
+    "breakup with partner": 239,
+    "problems with friends": 179,
+    "academic pressure": 156,
+    "Sleep Problems": 28,
+    "Procrastination": 13,
+    "Alcohol Abuse": 12,
+    "Appearance Anxiety": 12,
+    "conflict with parents": 10,
+    "Issues with Children": 10,
+    "Issues with Parents": 8,
+    "School Bullying": 2
+  },
+  "examples": {
+    "S1": {
+      "text": "It sounds like you might be upset. Can you tell me what’s going on?",
+      "ref": "22/3"
+    },
+    "S2": {
+      "text": "So your boss never showed up to cover people on PTO is that correct?",
+      "ref": "124/6"
+    },
+    "S3": {
+      "text": "Oh no, that must be so frustrating for you.",
+      "ref": "1268/3"
+    },
+    "S4": {
+      "text": "I understand. I have been through a similar situation.",
+      "ref": "858/3"
+    },
+    "S5": {
+      "text": "Don't be afraid to bring it up because you did nothing wrong",
+      "ref": "124/17"
+    },
+    "S6": {
+      "text": "Sometimes a mediator can help with the situation.",
+      "ref": "249/33"
+    },
+    "S7": {
+      "text": "There are some organisations that will offer a certain number of sessions for free",
+      "ref": "449/42"
+    },
+    "S8": {
+      "text": "Hi! How are you today?",
+      "ref": "22/1"
+    }
+  }
+}

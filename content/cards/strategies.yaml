@@ -1,0 +1,224 @@
+# Learning cards: one card per teacher strategy (the "items" of the educational content).
+# S1-S8 are the support strategies annotated in ESConv (Liu et al., 2021); A1-A3 are behaviours that
+# escalate conflict (A1 = Rights, A3 = Power in the Interests-Rights-Power framework; A2 = minimising).
+# `delta` = how the strategy changes the parent's anger (0-10 scale) per turn, before sensitivity.
+# Each card follows the guided-learning cycle: explanation -> example -> check question -> practice -> feedback.
+
+strategies:
+  S1:
+    name: Question
+    kind: calming
+    delta: -0.5
+    definition: "Asking about the problem so the other person can put into words what is bothering them."
+    learning_goal: "Find the real cause of the parent's anger with an open question."
+    explanation: >
+      An angry parent usually starts with the loudest complaint, not the most important one.
+      An open question ("what", "how") invites them to explain and gives you the facts you need.
+      Avoid questions that sound like an interrogation.
+    esconv_example: {text: "It sounds like you might be upset. Can you tell me what’s going on?", ref: "ESConv.json, dialogue 22, turn 3"}
+    school_example: "What worries you most about the grade?"
+    counterexample: "Why didn't Luka study more?"
+    check:
+      question: "Which question is most likely to calm an angry parent?"
+      options: ["Why didn't Luka study more?", "What worries you most about this grade?", "Did you even look at the test?"]
+      answer: 1
+      feedback: "An open, non-judging question invites the parent to explain instead of defending themselves."
+    practice: {anger: 7, goal: "Ask two open questions before you explain anything."}
+
+  S2:
+    name: Restatement or Paraphrasing
+    kind: calming
+    delta: -1.0
+    definition: "Repeating what the other person said in a shorter, simpler way so they see their situation more clearly."
+    learning_goal: "Show that you understood the complaint by saying it in your own words."
+    explanation: >
+      A parent who feels unheard repeats the complaint louder. A short paraphrase proves that you
+      heard it, and it gives the parent a chance to correct you.
+    esconv_example: {text: "So your boss never showed up to cover people on PTO is that correct?", ref: "ESConv.json, dialogue 124, turn 6"}
+    school_example: "If I understand correctly, you feel the grade is unfair and nobody told you Luka was struggling."
+    counterexample: "Yes, yes, I know all that."
+    check:
+      question: "Which sentence is a paraphrase?"
+      options: ["Calm down, please.", "So you feel nobody warned you before the test?", "The test was on Thursday."]
+      answer: 1
+      feedback: "A paraphrase repeats the parent's point in your words and checks that you understood it."
+    practice: {anger: 7, goal: "Paraphrase the main complaint in your first or second turn."}
+
+  S3:
+    name: Reflection of feelings
+    kind: calming
+    delta: -1.5
+    definition: "Naming and describing the other person's feelings."
+    learning_goal: "Recognise the parent's emotion and name it out loud."
+    explanation: >
+      An angry parent first wants to be heard. When you name the emotion, they no longer need to
+      raise their voice to be noticed, and the anger drops. In ESConv, naming the emotion usually
+      comes before a suggestion (71% of conversations; 85% when the emotion is anger).
+    esconv_example: {text: "Oh no, that must be so frustrating for you.", ref: "ESConv.json, dialogue 1268, turn 3"}
+    school_example: "I can hear that you are really frustrated and worried about Luka."
+    counterexample: "There is no reason to be upset."
+    check:
+      question: "The parent shouts that nobody cares about Luka. What is the best first reply?"
+      options: ["That is not true.", "I can hear how worried you are about Luka.", "Let me explain the grading criteria."]
+      answer: 1
+      feedback: "Naming the worry lowers the anger; explanations work better after the parent feels heard."
+    practice: {anger: 8, goal: "Name the parent's emotion in your first two turns."}
+
+  S4:
+    name: Self-disclosure
+    kind: neutral
+    delta: 0.0
+    definition: "Sharing a similar experience or feeling to show empathy."
+    learning_goal: "Use a short personal remark carefully and bring the focus back to the child."
+    explanation: >
+      A short personal remark can build trust, but a long story moves the attention to you.
+      Keep it to one sentence and return to the parent's problem.
+    esconv_example: {text: "I understand. I have been through a similar situation.", ref: "ESConv.json, dialogue 858, turn 3"}
+    school_example: "As a parent myself, I know how hard it is to see a bad grade. Let's look at Luka's test."
+    counterexample: "When I was at school I failed math too and look at me now..."
+    check:
+      question: "When does self-disclosure help?"
+      options: ["When it is short and returns to the child", "When it is a long story", "When it replaces an answer"]
+      answer: 0
+      feedback: "Keep it short and bring the focus back to the parent's problem."
+    practice: {anger: 5, goal: "Use one short personal remark and then return to the complaint."}
+
+  S5:
+    name: Affirmation and Reassurance
+    kind: calming
+    delta: -1.0
+    definition: "Affirming the other person's strengths and motivation, with encouragement and reassurance."
+    learning_goal: "Confirm that the parent's concern is legitimate and that calling was right."
+    explanation: >
+      Many angry parents expect to be blamed. Telling them that their concern is valid removes that
+      fear and makes cooperation possible.
+    esconv_example: {text: "Don't be afraid to bring it up because you did nothing wrong", ref: "ESConv.json, dialogue 124, turn 17"}
+    school_example: "You did the right thing by calling me. It is clear you care a lot about Luka."
+    counterexample: "Parents always call about grades."
+    check:
+      question: "Which sentence affirms the parent?"
+      options: ["You are overreacting.", "It is good that you called me straight away.", "I have many students."]
+      answer: 1
+      feedback: "Affirmation tells the parent their concern is legitimate."
+    practice: {anger: 6, goal: "Affirm the parent at least once before proposing a solution."}
+
+  S6:
+    name: Providing Suggestions
+    kind: calming
+    delta: -1.0
+    delta_if_anger_above: {threshold: 5.0, delta: 0.5}
+    definition: "Suggesting how to change the situation without telling the other person what to do."
+    learning_goal: "Offer a concrete solution, but only after the parent has calmed down."
+    explanation: >
+      A solution offered too early sounds like "please stop talking". When the anger is above 5,
+      a proposal makes things worse; at 5 or below, the same proposal calms the parent.
+      In ESConv, suggestions usually come after questions, paraphrases and naming the emotion.
+    esconv_example: {text: "Sometimes a mediator can help with the situation.", ref: "ESConv.json, dialogue 249, turn 33"}
+    school_example: "I suggest we meet tomorrow and go through the test together, and I can keep you informed every week."
+    counterexample: "Just let him do the retake and that's it."
+    check:
+      question: "The parent's anger is 8/10. What should you do first?"
+      options: ["Propose a retake right away", "Name the emotion and paraphrase the complaint", "Explain the rules"]
+      answer: 1
+      feedback: "At high anger a proposal backfires; first make the parent feel heard."
+    practice: {anger: 7, goal: "Bring the anger to 5 or below, then make one concrete proposal."}
+
+  S7:
+    name: Information
+    kind: calming
+    delta: -0.5
+    definition: "Giving useful information: data, facts, opinions, resources or answers to questions."
+    learning_goal: "Give facts, such as the grading criteria, without a defensive tone."
+    explanation: >
+      Facts help when the parent is ready to listen. Said defensively or too early, they sound like
+      an excuse and the parent rejects them.
+    esconv_example: {text: "There are some organisations that will offer a certain number of sessions for free", ref: "ESConv.json, dialogue 449, turn 42"}
+    school_example: "The test had ten tasks on fractions; Luka solved three of them correctly."
+    counterexample: "The grade is correct, I followed the rubric."
+    check:
+      question: "When is information most useful?"
+      options: ["As the very first reply", "After the parent feels heard", "Instead of an apology"]
+      answer: 1
+      feedback: "Information works once the parent is ready to listen."
+    practice: {anger: 5, goal: "Explain one fact calmly after paraphrasing the complaint."}
+
+  S8:
+    name: Others
+    kind: neutral
+    delta: 0.0
+    definition: "Pleasantries and other moves that do not belong to the categories above."
+    learning_goal: "Open and close the call politely."
+    explanation: "Greetings and thanks set the tone, but they do not solve the complaint."
+    esconv_example: {text: "Hi! How are you today?", ref: "ESConv.json, dialogue 22, turn 1"}
+    school_example: "Thank you for calling, Mr. Markovic."
+    counterexample: "Yes? What is it now?"
+    check:
+      question: "What does a polite greeting do?"
+      options: ["It solves the complaint", "It sets the tone of the call", "It lowers the anger by itself"]
+      answer: 1
+      feedback: "Pleasantries set the tone but do not replace listening."
+    practice: {anger: 4, goal: "Open and close the call politely."}
+
+  A1:
+    name: Appeal to rules (Rights)
+    kind: escalating
+    delta: 1.0
+    definition: "Hiding behind rules or the teacher's rights before the parent has been heard."
+    learning_goal: "Do not quote the rules before the parent feels heard."
+    explanation: "Quoting the rules early tells the parent their concern does not matter, so the anger rises."
+    school_example: "Rules are rules, there is nothing I can do."
+    counterexample: "I understand why the rule feels unfair here; let's look at what we can do."
+    check:
+      question: "What happens if you quote the rules at anger 7?"
+      options: ["The parent calms down", "The anger rises", "Nothing changes"]
+      answer: 1
+      feedback: "Rules before listening sound like a refusal to help."
+    practice: {anger: 6, goal: "Hold back any rule until the parent's anger is 5 or below."}
+
+  A2:
+    name: Minimising, interrupting, sarcasm
+    kind: escalating
+    delta: 1.5
+    definition: "Making the problem smaller, interrupting the parent or answering sarcastically."
+    learning_goal: "Do not minimise the problem or interrupt the parent."
+    explanation: "'Calm down' and 'it's just one test' tell the parent their feelings are wrong."
+    school_example: "Calm down, it's just one test."
+    counterexample: "I can see this test matters a lot to you."
+    check:
+      question: "Which reply minimises the problem?"
+      options: ["It's just one grade, relax.", "I see why this grade worries you.", "Let's look at the test together."]
+      answer: 0
+      feedback: "Minimising raises the anger; acknowledging it lowers the anger."
+    practice: {anger: 7, goal: "Get through the call without any minimising phrase."}
+
+  A3:
+    name: Threats, authority, blaming (Power)
+    kind: escalating
+    delta: 2.0
+    definition: "Using authority or threats, or blaming the child or the parent."
+    learning_goal: "Do not threaten, pull rank or blame the child."
+    explanation: "Power moves turn a complaint into a fight; the parent escalates to win it."
+    school_example: "If you don't like it, complain to the principal. Luka is simply lazy."
+    counterexample: "Let's find out together what Luka needs to improve."
+    check:
+      question: "Which reply blames the child?"
+      options: ["Luka just doesn't try.", "Let's see where Luka lost points.", "What does Luka say about the test?"]
+      answer: 0
+      feedback: "Blaming the child makes the parent defend the child instead of solving the problem."
+    practice: {anger: 7, goal: "Talk about the problem, not about who is to blame."}
+
+  "OFF":
+    name: Off-topic
+    kind: escalating
+    delta: 0.5
+    definition: "Talking about something unrelated to the parent's complaint."
+    learning_goal: "Stay on the parent's complaint."
+    explanation: "Changing the subject feels like avoiding the problem; the parent pulls the conversation back, angrier."
+    school_example: "By the way, did you see the football match yesterday?"
+    counterexample: "Let's get back to Luka's test."
+    check:
+      question: "Why does changing the subject raise the anger?"
+      options: ["It feels like avoiding the problem", "It is impolite to talk about sport", "It takes too long"]
+      answer: 0
+      feedback: "The parent called about one problem; changing the subject feels like dodging it."
+    practice: {anger: 5, goal: "Keep every turn about the parent's complaint."}

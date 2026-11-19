@@ -1,0 +1,73 @@
+{
+  "n_sentences": 62,
+  "lambda": 0.5,
+  "metrics": {
+    "default_weights": {
+      "exact": 0.694,
+      "within1": 0.968,
+      "spearman": 0.937
+    },
+    "fitted_cv": {
+      "exact": 0.565,
+      "within1": 0.935,
+      "spearman": 0.881
+    },
+    "fitted_train": {
+      "exact": 0.726,
+      "within1": 0.984,
+      "spearman": 0.939
+    }
+  },
+  "fitted_weights": {
+    "lexicon": 2.529,
+    "exclamation": 1.198,
+    "caps": 2.037,
+    "accusation": 0.401,
+    "threat": 1.421,
+    "demand": 0.557,
+    "rhetorical": 2.692,
+    "dismissal": 1.494,
+    "dissatisfaction": 0.818,
+    "opener": 1.019,
+    "imperative": 1.572,
+    "profanity": 3.0,
+    "politeness": -0.0
+  },
+  "confusion_cv": [
+    [
+      20,
+      0,
+      2,
+      0,
+      0
+    ],
+    [
+      7,
+      2,
+      1,
+      1,
+      0
+    ],
+    [
+      0,
+      2,
+      4,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      2,
+      4,
+      3
+    ],
+    [
+      0,
+      0,
+      1,
+      3,
+      5
+    ]
+  ]
+}

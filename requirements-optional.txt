@@ -1,0 +1,8 @@
+# Poseban model za grubo prepisivanje (data/train_rewriter.py) i merac ljutnje sa Hugging Face modelom (METER_BACKEND=hf)
+transformers>=4.40
+datasets>=2.18
+torch>=2.2
+# Glas: govor u tekst (STT_BACKEND=faster-whisper) i tekst u govor (TTS_BACKEND=gtts ili pyttsx3)
+faster-whisper>=1.0
+gTTS>=2.5
+pyttsx3>=2.90

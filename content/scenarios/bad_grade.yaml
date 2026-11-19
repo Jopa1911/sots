@@ -1,0 +1,70 @@
+# Scenario: an angry parent calls the teacher about a failing grade.
+# Everything the parent "knows" about the situation lives here (stalna memorija, zona C).
+# The conversation template (content/templates/parent_call.yaml) fills its slots from `slots`.
+
+id: bad_grade
+title: "Failing grade on a math test"
+description: >
+  A father calls his son's math teacher. Luka got a failing grade (1 out of 5) on the
+  fractions test. The father thinks the grade is unfair and that nobody warned him that
+  Luka was struggling.
+
+parent:
+  name: "Mr. Markovic"
+  relation: "father"
+  child: "Luka"
+  temperament: "impatient and protective; feels the school ignores parents"
+  hidden_need: "He is afraid Luka will fail math this year and that nobody at school cares."
+
+# Values used in the template sentences ({slot} placeholders).
+slots:
+  parent_name: "Mr. Markovic"
+  relation: "father"
+  child: "Luka"
+  issue: "the grade Luka got on the math test last Thursday"
+  issue_short: "Luka's math grade"
+  main_issue_noun: "the grade"
+  main_complaint_short: "the grade is not fair"
+  demand: "change the grade or let Luka take the test again"
+  escalation: "talk to the principal about this"
+  hidden_need_text: "If this goes on, Luka could fail math this year, and it feels like nobody at school cares."
+  next_step_time: "at the meeting"
+
+# Facts the parent reveals one by one when the teacher asks (sadržaj razgovora).
+details:
+  - "Luka studied for this test for three days."
+  - "He had a 4 in math in the first term."
+  - "He says half of the class failed this test too."
+  - "He says the test had tasks you never practised in class."
+
+complaints:
+  - id: unfair_grade
+    text: "The failing grade on the test is unfair."
+    say: "I think the grade is not fair."
+    condition: "Luka to get a fair chance to fix this grade"
+    main: true
+    ack_keywords: [unfair, not fair, the grade, this grade, the test, the result, upset about the grade, disappointed]
+    resolve_keywords: [go through the test, review the test, look at the test, show you the test, retake, re-take, take the test again, second chance, correct the test, extra lesson, extra help, additional lesson, tutoring, practice session]
+  - id: not_informed
+    text: "Nobody told the parent that Luka was struggling."
+    say: "Nobody told me that Luka was struggling in math. I had to find out from a failing grade."
+    condition: "you to tell me much earlier next time if Luka is struggling"
+    main: false
+    ack_keywords: [informed, inform, told you, tell you, let you know, contacted, should have called, should have told, earlier, warned]
+    resolve_keywords: [keep you informed, keep you updated, update you, weekly, every week, regular, send you, message you, email you, call you, inform you, let you know]
+
+anger:
+  initial: 7.0          # 0-10
+  sensitivity: 1.0      # 1.0 = average parent, 0.5 = stubborn parent
+  hang_up_threshold: 9.0
+  hang_up_turns: 2
+  resolve_threshold: 3.0
+
+limits:
+  max_turns: 16
+
+# Words that keep the conversation on topic (focus guard).
+topic_keywords: [grade, grades, graded, grading, test, tests, exam, math, maths, mathematics, fraction, fractions,
+  luka, son, child, kid, boy, mark, marks, score, points, result, results, class, lesson, lessons, homework,
+  retake, inform, informed, told, tell, call, called, meeting, principal, school, teacher, study, studied,
+  studying, tutor, criteria, rubric, term, progress, report, parent, review, fail, failed, failing, task, tasks]

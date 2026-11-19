@@ -1,0 +1,64 @@
+# Scenario 2: an angry parent calls because her daughter was left out of the school trip.
+# Uses the same conversation template as bad_grade; only the content (slots, details, complaints) changes.
+
+id: trip_exclusion
+title: "Left out of the school trip"
+description: >
+  A mother calls the class teacher. Mila was not allowed to go on the class trip because of
+  three behaviour notes. The mother thinks the decision is unfair and was told only the day before.
+
+parent:
+  name: "Mrs. Jovanovic"
+  relation: "mother"
+  child: "Mila"
+  temperament: "direct, feels her daughter is being singled out"
+  hidden_need: "She is afraid Mila is being labelled as a problem child by the school."
+
+slots:
+  parent_name: "Mrs. Jovanovic"
+  relation: "mother"
+  child: "Mila"
+  issue: "Mila not being allowed to go on the class trip"
+  issue_short: "Mila and the class trip"
+  main_issue_noun: "the trip decision"
+  main_complaint_short: "keeping Mila from the trip is not fair"
+  demand: "let Mila go on the trip or explain the decision in a meeting"
+  escalation: "talk to the principal about this"
+  hidden_need_text: "I am afraid the school now sees Mila as a problem child."
+  next_step_time: "at the meeting"
+
+details:
+  - "Mila has been looking forward to this trip for months."
+  - "I found out only yesterday, from Mila, not from the school."
+  - "Two of the three notes were for forgetting her sports kit."
+  - "Other children with notes are going on the trip."
+
+complaints:
+  - id: unfair_exclusion
+    text: "Keeping Mila from the trip is unfair."
+    say: "I think keeping Mila from the trip is not fair."
+    condition: "the decision about Mila and the trip to be looked at again"
+    main: true
+    ack_keywords: [unfair, not fair, the trip, the decision, left out, excluded, disappointed]
+    resolve_keywords: [go on the trip, join the trip, review the decision, reconsider, look at the notes again, change the decision, second chance]
+  - id: not_informed
+    text: "The parent was told only the day before."
+    say: "Nobody from the school told me about the notes. I heard about the trip decision from Mila, the day before."
+    condition: "you to tell me about behaviour notes when they happen"
+    main: false
+    ack_keywords: [informed, inform, told you, tell you, let you know, contacted, should have called, should have told, earlier, warned]
+    resolve_keywords: [keep you informed, keep you updated, update you, weekly, every week, regular, send you, message you, email you, call you, inform you, let you know]
+
+anger:
+  initial: 6.5
+  sensitivity: 1.0
+  hang_up_threshold: 9.0
+  hang_up_turns: 2
+  resolve_threshold: 3.0
+
+limits:
+  max_turns: 16
+
+topic_keywords: [trip, excursion, mila, daughter, child, kid, girl, note, notes, behaviour, behavior, decision,
+  class, school, teacher, inform, informed, told, tell, call, called, meeting, principal, rule, rules, sports, kit,
+  excluded, left, parent, review, reconsider, fair, unfair]

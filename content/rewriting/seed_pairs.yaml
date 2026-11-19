@@ -1,0 +1,91 @@
+# Our own school-context pairs: one neutral ("vanilla") sentence and its versions for anger levels 1-5.
+# Used as (a) few-shot examples for the LLM rewriter, (b) training data for the seq2seq rewriter,
+# (c) a check of the anger meter (does the measured level match the intended level?).
+# Not every sentence has every level: an angry parent does not "accept a proposal" at level 5.
+# Rules for harsh versions: strong criticism, rhetorical questions and ultimatums are allowed;
+# profanity, slurs, personal insults and threats of violence are not.
+
+pairs:
+  - vanilla: "I am calling about the grade Luka got on the math test."
+    levels:
+      1: "Hello, I am calling about the grade Luka got on the math test, if you have a moment."
+      2: "I am calling about Luka's math grade. Frankly, I expected better from the school."
+      3: "I am calling about Luka's math grade, and I am really angry about it!"
+      4: "Listen, I am calling about Luka's math grade. What is going on in that school?"
+      5: "Enough. I want answers about Luka's math grade RIGHT NOW!"
+
+  - vanilla: "I think the grade is not fair."
+    levels:
+      1: "I think the grade may not be fair, and I would like to understand it."
+      2: "I don't think the grade is fair. Something does not add up here."
+      3: "This grade is completely unfair! It makes no sense!"
+      4: "This grade is absolutely unfair. Do you even check these tests properly?"
+      5: "This grade is a disgrace and I am done being polite about it!"
+
+  - vanilla: "Nobody told me that Luka was struggling."
+    levels:
+      1: "I wish someone had told me earlier that Luka was struggling."
+      2: "Nobody told me that Luka was struggling. I expected a call from the school."
+      3: "Nobody told me that Luka was struggling! That is your job!"
+      4: "NOBODY told me anything! You never tell parents anything!"
+      5: "NOBODY told me a thing! What kind of teacher does that?"
+
+  - vanilla: "I would like you to let Luka take the test again."
+    levels:
+      1: "Would it be possible for Luka to take the test again?"
+      2: "I want Luka to take the test again. That is the least you can do."
+      3: "I demand that Luka takes the test again, and I want it this week!"
+      4: "Luka takes that test again. Today, not next month! Do you even care about your students?"
+      5: "Luka takes that test again, or the principal will hear about this!"
+
+  - vanilla: "Your explanation does not help Luka."
+    levels:
+      1: "I understand the explanation, but I am not sure it helps Luka."
+      2: "That explanation doesn't really help Luka."
+      3: "That explanation does nothing to help Luka! Rules do not explain anything!"
+      4: "Stop hiding behind the rules! That explanation is useless to Luka!"
+      5: "I don't want excuses, I want a solution! Are you even listening to me?"
+
+  - vanilla: "I asked you about the grade and I still do not have an answer."
+    levels:
+      1: "I asked about the grade earlier; could we come back to it?"
+      2: "I asked you about the grade and I still don't have an answer."
+      3: "Are you even listening to me? I still don't have an answer about the grade!"
+      4: "I have said it three times already! Answer my question about the grade!"
+      5: "I am done repeating myself! Answer me NOW or this call is over!"
+
+  - vanilla: "If this is not solved, I will talk to the principal."
+    levels:
+      1: "If we cannot solve this together, I may need to talk to the principal."
+      2: "If this is not solved, I will talk to the principal. I mean that."
+      3: "If this is not solved, I am going to the principal!"
+      4: "Fix this, or I am going to the principal. I mean it!"
+      5: "I am going straight to the principal tomorrow morning! I have had enough!"
+
+  - vanilla: "All right, that sounds fair. Let us do that."
+    levels:
+      1: "All right, that sounds fair. Let us do that, thank you."
+      2: "All right, fine. But I hope this is the last time."
+      3: "Fine! But this time I expect it to actually happen!"
+
+  - vanilla: "Honestly, I am worried that Luka could fail math this year."
+    levels:
+      1: "Honestly, I am a bit worried that Luka could fail math this year."
+      2: "I am worried that Luka could fail math this year. That is what really bothers me."
+      3: "I am really worried that Luka will fail math this year, and nobody seems to care!"
+
+  - vanilla: "Could you explain how the test was graded?"
+    levels:
+      1: "Could you please explain how the test was graded?"
+      2: "Can you explain how the test was graded? I need to see it."
+      3: "You need to explain how this test was graded!"
+      4: "Explain to me how this test was graded. Do you even have criteria?"
+      5: "Explain this grading to me RIGHT NOW!"
+
+  - vanilla: "Mila was not allowed to go on the class trip and I was told only yesterday."
+    levels:
+      1: "Mila was not allowed to go on the class trip, and I only found out yesterday, so I would like to talk about it."
+      2: "Mila was not allowed to go on the trip and I was told only yesterday. That is not how it should work."
+      3: "Mila was kept from the trip and I heard about it only yesterday! This is unacceptable!"
+      4: "You kept Mila from the trip and told me the day before? This is ridiculous!"
+      5: "You kept Mila from the trip and told NOBODY! I have had enough!"

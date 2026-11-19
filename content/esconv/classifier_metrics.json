@@ -1,0 +1,8 @@
+{
+  "esconv_test_accuracy": 0.544,
+  "esconv_test_macro_f1": 0.491,
+  "school_accuracy": 0.69,
+  "rules_school_accuracy": 1.0,
+  "n_train": 14753,
+  "n_test": 3623
+}

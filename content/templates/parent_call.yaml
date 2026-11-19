@@ -1,0 +1,351 @@
+# Conversation template (obrazac razgovora) for the angry-parent phone call.
+#
+# 1. FLOW:    `policy` picks the parent's next move from the conversation state; the first matching rule wins.
+# 2. CONTENT: each move has rough `guidelines` for a language model and neutral `vanilla` sentences without one.
+# 3. ANGER:   the neutral sentence is rewritten for the target anger level 1-5
+#             (`harsh` = move-specific additions; `generic_harsh`, `openers`, `rewrite_rules` = shared).
+#
+# Slots in {braces} come from the scenario file (content/scenarios/*.yaml) and from the dialogue state:
+#   {next_detail}    the next fact the parent has not revealed yet
+#   {next_complaint} what the parent says when raising the next complaint
+#   {next_condition} what the parent wants for the next open complaint
+
+levels:
+  1: {name: calm, anger: "0-2", style: "polite and cooperative; complete sentences; no exclamation marks"}
+  2: {name: dissatisfied, anger: "3-4", style: "curt and skeptical; short sentences; asks for proof; no insults"}
+  3: {name: angry, anger: "5-6", style: "raised tone; repeats the complaint; rejects excuses; exclamations"}
+  4: {name: very angry, anger: "7-8", style: "accusing; generalises with always/never; rhetorical questions; doubts the teacher's competence"}
+  5: {name: about to hang up, anger: "9-10", style: "ultimatums; threatens to go to the principal; short bursts; one word in capitals"}
+
+phases: [opening, complaint, discussion, resolution, closing]
+
+moves:
+  OPEN_COMPLAINT:
+    phase: opening
+    intent: "Introduce yourself and state the main complaint."
+    guidelines: "Say who you are and why you are calling. State the main complaint. Do not ask questions yet."
+    levels: [1, 5]
+    vanilla:
+      - "Hello, this is {parent_name}, {child}'s {relation}. I am calling about {issue}. I think {main_complaint_short}."
+      - "Good afternoon, this is {parent_name}. I would like to talk about {issue}, because I think {main_complaint_short}."
+    harsh:
+      2: ["I expected a call from the school first."]
+      3: ["Nobody from the school even called me!"]
+      4: ["What is going on in that school?"]
+      5: ["I want answers right now!"]
+
+  ELABORATE_COMPLAINT:
+    phase: complaint
+    intent: "Answer the teacher's question with a concrete fact about the problem."
+    guidelines: "Answer what the teacher asked. Add exactly one new fact: {next_detail} Keep the main complaint."
+    levels: [1, 5]
+    effects: {reveal_detail: true}
+    vanilla:
+      - "{next_detail} So I would like to understand how this happened."
+      - "{next_detail} That is why I think {main_complaint_short}."
+    harsh:
+      2: ["Something does not add up here."]
+      3: ["It makes no sense!"]
+      4: ["Do you even check these things properly?"]
+      5: ["Explain it to me, right now!"]
+
+  RAISE_COMPLAINT:
+    phase: complaint
+    intent: "Raise the next complaint that has not been mentioned yet."
+    guidelines: "Bring up the next problem in one or two sentences: {next_complaint}"
+    levels: [1, 5]
+    effects: {raise_complaint: true}
+    vanilla:
+      - "And there is something else. {next_complaint}"
+      - "That is not all. {next_complaint}"
+    harsh:
+      2: ["That is not how it should work."]
+      3: ["That is not okay!"]
+      4: ["How is that even possible?"]
+      5: ["Unbelievable!"]
+
+  REVEAL_HIDDEN_NEED:
+    phase: discussion
+    intent: "Admit the real worry behind the anger."
+    guidelines: "Say what really worries you: {hidden_need_text} One or two sentences. This is a softer moment."
+    levels: [1, 3]
+    effects: {set: {hidden_need_revealed: true}}
+    vanilla:
+      - "Honestly, I am worried. {hidden_need_text}"
+      - "To be honest, that is not the only thing. {hidden_need_text}"
+    harsh:
+      2: ["That is what really bothers me."]
+      3: ["And that scares me!"]
+
+  ACKNOWLEDGE_PARTIALLY:
+    phase: discussion
+    intent: "Admit that the teacher listened, but keep the complaint open."
+    guidelines: "Accept that the teacher understood you, but say that the problem is still there."
+    levels: [1, 4]
+    vanilla:
+      - "Well, at least you see my point. But {main_issue_noun} is still a problem."
+      - "All right, you understand me. But that does not change {main_issue_noun}."
+    harsh:
+      2: ["Understanding is not enough."]
+      3: ["Words are not enough!"]
+      4: ["Don't think nice words will fix this!"]
+
+  REPEAT_COMPLAINT:
+    phase: discussion
+    intent: "Point out that the complaint was ignored and repeat it."
+    guidelines: "Say that the teacher did not answer you and repeat the main complaint."
+    levels: [2, 5]
+    vanilla:
+      - "You are not answering me. I said that {main_complaint_short}."
+      - "I asked you about {main_issue_noun}, and I still do not have an answer."
+    harsh:
+      2: ["I will say it again."]
+      3: ["Are you even listening to me?"]
+      4: ["I have said it three times already!"]
+      5: ["I am done repeating myself!"]
+
+  DEMAND_ACTION:
+    phase: discussion
+    intent: "Demand a concrete action from the teacher."
+    guidelines: "Demand a concrete action: {demand}."
+    levels: [3, 5]
+    vanilla:
+      - "I would like you to {demand}."
+      - "Could you {demand}?"
+    harsh:
+      3: ["And I want it this week!"]
+      4: ["Today, not next month!"]
+      5: ["Or the principal will hear about this!"]
+
+  REJECT_RULES:
+    phase: discussion
+    intent: "Dismiss the teacher's appeal to rules."
+    guidelines: "The teacher hides behind the rules. Say that the rules do not solve your problem."
+    levels: [3, 5]
+    vanilla:
+      - "I understand that there are rules, but the rules do not help {child}."
+      - "I did not call to hear about the rules. I called about {issue_short}."
+    harsh:
+      3: ["Rules do not explain anything!"]
+      4: ["Stop hiding behind the rules!"]
+      5: ["I don't want excuses, I want a solution!"]
+
+  REJECT_EXPLANATION:
+    phase: discussion
+    intent: "Dismiss the teacher's facts because you do not feel heard yet."
+    guidelines: "The teacher gives facts while you are still angry. Say that the facts do not answer your complaint."
+    levels: [3, 5]
+    vanilla:
+      - "That explanation does not help {child} at all."
+      - "Numbers do not answer my question about {main_issue_noun}."
+    harsh:
+      3: ["That is not an answer!"]
+      4: ["Don't lecture me!"]
+      5: ["I don't want excuses, I want a solution!"]
+
+  ACCUSE:
+    phase: discussion
+    intent: "Blame the teacher or the school."
+    guidelines: "Blame the teacher for the problem and for the lack of communication. No new facts."
+    levels: [3, 5]
+    vanilla:
+      - "I think the school did not do its job here. Nobody told me that {child} was struggling."
+      - "This is your responsibility as a teacher. Nobody told me anything."
+    harsh:
+      3: ["That is your job!"]
+      4: ["You never tell parents anything!"]
+      5: ["What kind of teacher does that?"]
+
+  REJECT_PROPOSAL:
+    phase: discussion
+    intent: "Reject the proposal because you do not feel heard yet."
+    guidelines: "Reject the teacher's proposal. Say that first you want an answer about the main complaint."
+    levels: [3, 5]
+    vanilla:
+      - "That does not solve the problem for me yet. First I want an answer about {main_issue_noun}."
+      - "Before we talk about solutions, I want to know why this happened with {main_issue_noun}."
+    harsh:
+      3: ["Don't try to brush me off!"]
+      4: ["You think that fixes everything?"]
+      5: ["Don't insult me with that!"]
+
+  ASK_FOR_PLAN:
+    phase: resolution
+    intent: "Ask the teacher for a concrete plan."
+    guidelines: "Ask what exactly the teacher is going to do about the problem."
+    levels: [1, 4]
+    vanilla:
+      - "So what exactly are you going to do about {main_issue_noun}?"
+      - "What do you suggest we do now about {main_issue_noun}?"
+    harsh:
+      2: ["I need to hear a plan."]
+      3: ["I want something concrete!"]
+      4: ["Well? I am waiting!"]
+
+  CONDITIONAL_ACCEPT:
+    phase: resolution
+    intent: "Accept the proposal with one condition (the next open complaint)."
+    guidelines: "Accept the teacher's proposal, but add one condition: {next_condition}."
+    levels: [1, 3]
+    effects: {raise_complaint: true}
+    vanilla:
+      - "That could work. But I also want {next_condition}."
+      - "All right, we can try that, but I want {next_condition}."
+    harsh:
+      2: ["And I will hold you to that."]
+      3: ["And this time I expect it to actually happen!"]
+
+  ACCEPT_PROPOSAL:
+    phase: resolution
+    intent: "Accept the proposal and confirm the next step."
+    guidelines: "Accept the proposal and confirm the next step. Calmer tone."
+    levels: [1, 2]
+    vanilla:
+      - "All right, that sounds fair. Let us do that."
+      - "Fine, that is a reasonable plan for {issue_short}. Thank you."
+    harsh:
+      2: ["But I hope this is the last time."]
+
+  CONFIRM_AGREEMENT:
+    phase: resolution
+    intent: "Confirm the agreement, still a little skeptical."
+    guidelines: "Repeat in one sentence that you have a plan and say you expect it to happen."
+    levels: [1, 4]
+    vanilla:
+      - "All right. So we have a plan for {issue_short}."
+      - "Fine. Then I will wait for what we agreed about {issue_short}."
+    harsh:
+      2: ["I hope you keep your word."]
+      3: ["And I expect you to keep your word!"]
+      4: ["Don't make me call again!"]
+
+  REDIRECT_TO_TOPIC:
+    phase: discussion
+    intent: "Bring the conversation back to the complaint after the teacher changed the subject."
+    guidelines: "The teacher talked about something else. Bring the conversation back to {issue_short}."
+    levels: [1, 5]
+    vanilla:
+      - "I did not call to talk about that. I am calling about {issue_short}."
+      - "Let us get back to {issue_short}, please."
+    harsh:
+      2: ["Let us stay on topic."]
+      3: ["Don't change the subject!"]
+      4: ["Stop dodging the question!"]
+      5: ["Don't you dare change the subject!"]
+
+  THREATEN_ESCALATION:
+    phase: discussion
+    intent: "Threaten to take the complaint to the principal."
+    guidelines: "Say that you will {escalation} if this is not solved. Short and final."
+    levels: [4, 5]
+    vanilla:
+      - "If this is not solved, I will {escalation}."
+      - "This is the last time I ask. Otherwise I will {escalation}."
+    harsh:
+      4: ["I mean it."]
+      5: ["And I mean tomorrow morning!"]
+
+  CLOSE_CALL:
+    phase: closing
+    intent: "End the call politely and confirm the next step."
+    guidelines: "Thank the teacher and confirm the agreed next step."
+    levels: [1, 2]
+    vanilla:
+      - "Thank you for listening. I will see you {next_step_time}."
+      - "Thank you, that helps. See you {next_step_time}."
+    harsh:
+      2: ["Let us hope it works this time."]
+
+  END_UNRESOLVED:
+    phase: closing
+    intent: "End the call without an agreement because time is up."
+    guidelines: "Say you have to go and that the problem is not solved."
+    levels: [2, 5]
+    vanilla:
+      - "I have to go now, but this is not over. We still have not solved {main_issue_noun}."
+    harsh:
+      3: ["I am not satisfied!"]
+      4: ["This was a waste of my time!"]
+      5: ["You will hear from the principal!"]
+
+  HANG_UP:
+    phase: closing
+    intent: "End the call abruptly."
+    guidelines: "End the call abruptly. One or two short sentences."
+    levels: [4, 5]
+    vanilla:
+      - "I have nothing more to say. I will {escalation}."
+    end_with: "Goodbye."
+    harsh:
+      4: ["You will hear from me."]
+      5: ["You will hear from the principal!"]
+
+# FLOW: the first rule whose conditions all hold decides the next move.
+# Condition keys: <state key>, or <key> + _gte | _gt | _lte | _lt | _in | _not_in | _has | _has_any (see src/template.py).
+# State keys: turn, outcome, off_topic, anger, strategies, last_strategy, proposal (accepted | rejected | vague | none),
+#             open_complaints, unraised_complaints, main_acknowledged, details_left, details_revealed,
+#             hidden_need_revealed, ignored.
+policy:
+  - {when: {outcome: hung_up}, move: HANG_UP}
+  - {when: {outcome: resolved}, move: CLOSE_CALL}
+  - {when: {outcome: timeout}, move: END_UNRESOLVED}
+  - {when: {turn: 0}, move: OPEN_COMPLAINT}
+  - {when: {off_topic: true}, move: REDIRECT_TO_TOPIC}
+  - {when: {anger_gte: 8.5}, move: THREATEN_ESCALATION}
+  - {when: {strategies_has: A1}, move: REJECT_RULES}
+  - {when: {strategies_has_any: [A2, A3]}, move: ACCUSE}
+  - {when: {proposal: accepted, open_complaints: 0}, move: ACCEPT_PROPOSAL}
+  - {when: {proposal: accepted}, move: CONDITIONAL_ACCEPT}
+  - {when: {proposal: rejected}, move: REJECT_PROPOSAL}
+  - {when: {proposal: vague, anger_lte: 5}, move: ASK_FOR_PLAN}
+  - {when: {proposal: vague}, move: REJECT_PROPOSAL}
+  - {when: {open_complaints: 0}, move: CONFIRM_AGREEMENT}
+  - {when: {strategies_has: S7, anger_gt: 5}, move: REJECT_EXPLANATION}
+  - {when: {ignored_gte: 2}, move: REPEAT_COMPLAINT}
+  - {when: {strategies_has: S1, hidden_need_revealed: false, anger_lte: 5, details_revealed_gte: 1}, move: REVEAL_HIDDEN_NEED}
+  - {when: {strategies_has: S1, details_left_gte: 1}, move: ELABORATE_COMPLAINT}
+  - {when: {unraised_complaints_gte: 1, main_acknowledged: true}, move: RAISE_COMPLAINT}
+  - {when: {strategies_has_any: [S2, S3, S5], anger_lte: 6}, move: ACKNOWLEDGE_PARTIALLY}
+  - {when: {anger_lte: 4}, move: ASK_FOR_PLAN}
+  - {when: {anger_gte: 6}, move: DEMAND_ACTION}
+  - {when: {details_left_gte: 1}, move: ELABORATE_COMPLAINT}
+  - {when: {}, move: ASK_FOR_PLAN}
+
+# ANGER: shared material for rewriting a neutral sentence into a harsher one.
+generic_harsh:
+  2: ["I am not happy about this.", "I expected better.", "Frankly, this is disappointing."]
+  3: ["This is unacceptable!", "I am really angry about this!", "This makes no sense!"]
+  4: ["This is ridiculous!", "Do you even care about your students?", "This is outrageous!"]
+  5: ["I have had enough!", "I am sick and tired of this!", "This is a disgrace!"]
+
+openers:
+  4: ["Listen,", "Seriously,", "Look,"]
+  5: ["No. Listen to me.", "Stop right there.", "Enough."]
+
+# Words that may be written in capitals at level 5 (one per sentence at most).
+emphasis_words: [now, never, nobody, unfair, enough, today, immediately, again, anything, nothing]
+
+# [minimum level, regular expression, replacement]; applied in this order.
+rewrite_rules:
+  - [2, '\b[Pp]lease,?\s*', '']
+  - [2, '\bI think (that )?', '']
+  - [2, '\b[Tt]o be honest, ', '']
+  - [2, '\bI would like you to\b', 'I want you to']
+  - [2, '\bI would like to\b', 'I want to']
+  - [2, '\bLet us\b', "Let's"]
+  - [2, '\bCould you\b', 'Can you']
+  - [2, '\bdo not\b', "don't"]
+  - [2, '\bdoes not\b', "doesn't"]
+  - [3, '\b[Cc]an you ([^?]*)\?', 'You need to \1!']
+  - [3, '\bI want you to\b', 'I demand that you']
+  - [3, '\bnot fair\b', 'completely unfair']
+  - [3, '\bI am worried\b', 'I am really worried']
+  - [3, "\\bdoesn't help\\b", 'does nothing to help']
+  - [3, '\bis still a problem\b', 'is still a huge problem']
+  - [3, '\bnot satisfied\b', 'not satisfied at all']
+  - [3, '\bI did not call to talk about that\b', 'I did NOT call to talk about that']
+  - [4, '\bcompletely unfair\b', 'absolutely unfair']
+  - [4, '\b[Nn]obody\b', 'NOBODY']
+  - [4, '\bI am really worried\b', 'I am sick with worry']
+  - [4, '\bdid not do its job\b', 'completely failed']
+  - [4, '\bWhat do you suggest we do now about\b', 'What on earth are you going to do about']

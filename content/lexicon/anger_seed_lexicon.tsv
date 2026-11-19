@@ -1,0 +1,114 @@
+# Anger lexicon of this project: word or phrase <TAB> anger intensity 0-1.
+furious	0.95
+outraged	0.95
+outrageous	0.85
+disgrace	0.9
+disgraceful	0.9
+infuriating	0.9
+livid	0.95
+enraged	0.95
+hate	0.85
+unacceptable	0.75
+ridiculous	0.75
+absurd	0.7
+nonsense	0.65
+incompetent	0.85
+useless	0.75
+clueless	0.7
+pathetic	0.8
+shameful	0.8
+scandal	0.8
+scandalous	0.85
+appalling	0.85
+terrible	0.6
+awful	0.6
+horrible	0.65
+angry	0.7
+mad	0.6
+annoyed	0.45
+irritated	0.45
+upset	0.5
+frustrated	0.5
+frustrating	0.5
+disappointed	0.35
+disappointing	0.35
+unhappy	0.35
+unfair	0.45
+unjust	0.55
+fair	0.0
+wrong	0.3
+blame	0.5
+fault	0.45
+lie	0.7
+lying	0.75
+liar	0.85
+excuse	0.4
+excuses	0.45
+demand	0.55
+insist	0.45
+waste	0.5
+is a joke	0.6
+what a joke	0.65
+enough	0.35
+dare	0.7
+never	0.25
+always	0.15
+nobody	0.2
+responsibility	0.25
+failed	0.3
+problem	0.15
+worried	0.15
+dodging	0.6
+hiding	0.45
+insult	0.7
+insulting	0.75
+disrespect	0.7
+disrespectful	0.75
+rude	0.55
+ignored	0.45
+ignoring	0.45
+fed up	0.75
+sick and tired	0.8
+had enough	0.75
+how dare you	0.95
+are you kidding	0.7
+are you serious	0.6
+what kind of teacher	0.85
+you people	0.6
+for gods sake	0.75
+waste of time	0.65
+waste of my time	0.75
+not acceptable	0.7
+not good enough	0.5
+completely unfair	0.65
+absolutely unfair	0.8
+not fair	0.25
+not happy	0.3
+calm down	0.35
+not my problem	0.55
+not my fault	0.45
+rules are rules	0.45
+whatever	0.4
+overreacting	0.45
+lazy	0.55
+stop dodging	0.7
+dont you dare	0.9
+straight to the principal	0.65
+the principal will hear	0.6
+hear from the principal	0.6
+brush me off	0.65
+listen to me	0.5
+answer me	0.5
+right now	0.4
+i want answers	0.55
+makes no sense	0.5
+does nothing to help	0.5
+huge problem	0.45
+sick with worry	0.45
+you never	0.5
+do you even	0.6
+are you even listening	0.65
+stop hiding	0.65
+i mean it	0.55
+not satisfied	0.35
+not satisfied at all	0.55
