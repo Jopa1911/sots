@@ -20,7 +20,7 @@ def test_streamlit_app_runs_a_turn(monkeypatch):
     assert len(at.chat_message) == 3
 
 
-def test_pilot_analysis(tmp_path):
+def test_pilot_analysis():
     sys.path.insert(0, str(ROOT / "evaluation"))
     from analyze_pilot import analyze, to_markdown
 
